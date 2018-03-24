@@ -1,0 +1,41 @@
+1.setting 文件修改{
+#####
+    a.语言  时区
+#####
+    b.改用mysql数据库
+        # Project01/setting.py
+        DATABASES = {
+            'default': {
+                # 'ENGINE': 'django.db.backends.sqlite3',
+                # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+
+                # 配置mysql数据库
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': "db_django01",
+                'USER': "root",
+                'PASSWORD': "root",
+                'HOST': "localhost",
+                'PORT': 3306,
+            }
+        }
+        项目下__init__  导入
+            import pymysql
+            pymysql.install_as_MySQLdb()
+#####
+    c.创建模型类基类（所有模型都要继承此类）
+            # dailyfresh/utils/models.py
+              class BaseModel(models.Model):
+                  """模型类基类"""
+
+                  # 创建时间
+                  create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+                  # 最后修改时间
+                  update_time = models.DateTimeField(auto_now=True, verbose_name='修改时间')
+                  # 删除标识
+                  delete = models.BooleanField(default=False, verbose_name='是否删除')
+
+                  class Meta(object):
+                      # 需要指定基类模型类为抽象的,否则迁移生成表时会出错
+                      abstract = True
+
+    }
